@@ -1,0 +1,16 @@
+language: php
+php:
+  - '7.1'
+  - '7.2'
+  - '7.3'
+install:
+  - composer install
+script:
+  - ./vendor/vin/codecept run unit
+  - ./vendor/bin/phpcs
+cache:
+  directories:
+    - vendor
+    - $HOME/.composer/cache
+notifications:
+  webhooks: https://travis-tg.herokuapp.com/u/$TG_NOTIFY_USER_ID

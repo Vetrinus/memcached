@@ -1,5 +1,31 @@
 {
   "type": "library",
   "name": "vetrinus/memcached-client",
-  "description": "A client library for memcached"
+  "description": "A client library for memcached",
+  "require-dev": {
+    "codeception/codeception": "^4.0",
+    "codeception/module-asserts": "^1.1",
+    "squizlabs/php_codesniffer": "*"
+  },
+  "require": {
+  },
+  "autoload": {
+    "psr-4": {
+      "vetrinus\\memcached\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/codecept run unit",
+    "cs-check": "./vendor/bin/phpcs",
+    "cs-fix": "./vendor/bin/phpcbf",
+    "check": [
+      "@cs-check",
+      "@test"
+    ]
+  }
 }
