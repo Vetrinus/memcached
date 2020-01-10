@@ -6,8 +6,8 @@ php:
 install:
   - composer install
 script:
-  - ./vendor/vin/codecept run unit
-  - ./vendor/bin/phpcs
+  - composer test
+  - composer cs-check
 cache:
   directories:
     - vendor
