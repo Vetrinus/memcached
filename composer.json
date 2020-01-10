@@ -1,0 +1,5 @@
+{
+  "type": "library",
+  "name": "vetrinus/memcached-client",
+  "description": "A client library for memcached"
+}
