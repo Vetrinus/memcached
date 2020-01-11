@@ -8,6 +8,7 @@
     "squizlabs/php_codesniffer": "*"
   },
   "require": {
+    "psr/cache": "^1.0"
   },
   "autoload": {
     "psr-4": {
@@ -20,7 +21,7 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/codecept run unit",
+    "test": "vendor/bin/codecept run --coverage --coverage-xml --xml",
     "cs-check": "./vendor/bin/phpcs",
     "cs-fix": "./vendor/bin/phpcbf",
     "check": [
