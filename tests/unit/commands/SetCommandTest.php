@@ -38,8 +38,10 @@ class SetCommandTest extends \Codeception\Test\Unit
 
     public function testDateInterval()
     {
-        $command = new SetCommand('key', 'valueToSave', new \DateInterval('PT5S'));
+        $diff = 5;
 
-        $this->tester->assertEquals(5, $command->getExpiration());
+        $command = new SetCommand('key', 'valueToSave', new \DateInterval('PT' . $diff . 'S'));
+
+        $this->tester->assertEqualsWithDelta(time() + 5, $command->getExpiration(), 1, 'expiration must be a unixtime');
     }
 }
