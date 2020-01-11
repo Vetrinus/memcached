@@ -17,7 +17,7 @@ class SetCommandTest extends \Codeception\Test\Unit
     {
         $command = new SetCommand('key', 'valueToSave');
 
-        $mustBe = 'set key 0 0 19' . BaseCommand::NLCR . 's:11:"valueToSave";' . BaseCommand::NLCR;
+        $mustBe = 'set key 0 ' . (time() - 1) . ' 19' . BaseCommand::NLCR . 's:11:"valueToSave";' . BaseCommand::NLCR;
         $this->tester->assertEquals($mustBe, $command->represent());
     }
 
@@ -42,6 +42,7 @@ class SetCommandTest extends \Codeception\Test\Unit
 
         $command = new SetCommand('key', 'valueToSave', new \DateInterval('PT' . $diff . 'S'));
 
-        $this->tester->assertEqualsWithDelta(time() + 5, $command->getExpiration(), 1, 'expiration must be a unixtime');
+        $this->tester->assertEqualsWithDelta(time() + $diff, $command->getExpiration(), 1,
+            'expiration must be a unixtime');
     }
 }

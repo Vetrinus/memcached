@@ -2,12 +2,16 @@
 
 namespace vetrinus\memcached;
 
+use Generator;
+use Iterator;
 use Psr\SimpleCache\CacheInterface;
 use vetrinus\memcached\commands\ClearCommand;
 use vetrinus\memcached\commands\DeleteCommand;
 use vetrinus\memcached\commands\GetCommand;
+use vetrinus\memcached\commands\GetMultipleCommand;
 use vetrinus\memcached\commands\SetCommand;
 use vetrinus\memcached\processors\DeleteProcessor;
+use vetrinus\memcached\processors\GetMultipleProcessor;
 use vetrinus\memcached\processors\GetProcessor;
 
 class MemcachedClient extends BaseClient implements CacheInterface
@@ -62,7 +66,14 @@ class MemcachedClient extends BaseClient implements CacheInterface
      */
     public function getMultiple($keys, $default = null)
     {
-        // TODO: Implement getMultiple() method.
+        if ($keys instanceof Generator) {
+            $keys = $this->ensureGenerator($keys);
+        }
+
+        $command = new GetMultipleCommand($keys);
+        $processor = new GetMultipleProcessor();
+
+        return $processor->process($this->execute($command), $keys, $default);
     }
 
     /**
@@ -71,8 +82,12 @@ class MemcachedClient extends BaseClient implements CacheInterface
     public function setMultiple($values, $ttl = null)
     {
         foreach ($values as $key => $value) {
-            $this->set($key, $value, $ttl);
+            if (!$this->set($key, $value, $ttl)) {
+                return false;
+            }
         }
+
+        return true;
     }
 
     /**
@@ -81,8 +96,12 @@ class MemcachedClient extends BaseClient implements CacheInterface
     public function deleteMultiple($keys)
     {
         foreach ($keys as $key) {
-            $this->delete($key);
+            if (!$this->delete($key)) {
+                return false;
+            }
         }
+
+        return true;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace vetrinus\memcached;
 
+use Generator;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
 use vetrinus\memcached\transport\Transport;
@@ -49,5 +50,16 @@ abstract class BaseClient
         }
 
         return new Response($response);
+    }
+
+    protected function ensureGenerator(Generator $generator): array
+    {
+        $result = [];
+
+        foreach ($generator as $key => $value) {
+            $result[$key] = $value;
+        }
+
+        return $result;
     }
 }

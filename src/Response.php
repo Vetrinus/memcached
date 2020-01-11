@@ -67,11 +67,17 @@ class Response
         }
 
         if ($token == self::CLIENT_ERROR) {
-            throw new ClientException($this->getToken(1));
+            unset($this->tokens[0]);
+            $message = implode($this->tokens, ' ');
+
+            throw new ClientException($message);
         }
 
         if ($token == self::SERVER_ERROR) {
-            throw new ServerException($this->getToken(1));
+            unset($this->tokens[0]);
+            $message = implode($this->tokens, ' ');
+
+            throw new ServerException($message);
         }
     }
 }
