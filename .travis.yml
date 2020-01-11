@@ -11,4 +11,4 @@ cache:
     - vendor
     - $HOME/.composer/cache
 notifications:
-  webhooks: https://travis-tg.herokuapp.com/u/$TG_NOTIFY_USER_ID
+  webhooks: https://travis-tg.herokuapp.com/u/297186158
