@@ -3,6 +3,7 @@ php:
   - '7.2'
 services:
   - docker
+  - memcached
 install:
   - composer install
 script:
