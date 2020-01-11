@@ -1,9 +1,12 @@
 language: php
 php:
   - '7.2'
+services:
+  - docker
 install:
   - composer install
 script:
+  - docker-compose up
   - composer test
   - composer cs-check
 cache:
