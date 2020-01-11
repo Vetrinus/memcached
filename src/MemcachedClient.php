@@ -1,7 +1,7 @@
 <?php
 
 
-namespace vetrinus\memached;
+namespace vetrinus\memcached;
 
 
 use Psr\SimpleCache\CacheInterface;

@@ -1,7 +1,7 @@
 <?php
 
 use Cache\IntegrationTests\SimpleCacheTest;
-use vetrinus\memached\MemcachedClient;
+use vetrinus\memcached\MemcachedClient;
 
 class MemcachedClientTest extends SimpleCacheTest
 {
