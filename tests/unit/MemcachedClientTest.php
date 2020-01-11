@@ -1,12 +1,14 @@
 <?php
 
 use Cache\IntegrationTests\SimpleCacheTest;
-use vetrinus\memcached\MemcachedClient;
+use vetrinus\memcached\ClientFactory;
 
 class MemcachedClientTest extends SimpleCacheTest
 {
     public function createSimpleCache()
     {
-        return new MemcachedClient();
+        $factory = new ClientFactory();
+
+        return $factory->createByDomainAndPort('localhost');
     }
 }

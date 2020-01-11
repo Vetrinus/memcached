@@ -3,15 +3,25 @@
 namespace vetrinus\memcached;
 
 use Psr\SimpleCache\CacheInterface;
+use vetrinus\memcached\commands\ClearCommand;
+use vetrinus\memcached\commands\DeleteCommand;
+use vetrinus\memcached\commands\GetCommand;
+use vetrinus\memcached\commands\SetCommand;
+use vetrinus\memcached\processors\DeleteProcessor;
+use vetrinus\memcached\processors\GetProcessor;
 
-class MemcachedClient implements CacheInterface
+class MemcachedClient extends BaseClient implements CacheInterface
 {
     /**
      * @inheritDoc
      */
     public function get($key, $default = null)
     {
-        // TODO: Implement get() method.
+        $command = new GetCommand($key);
+        $processor = new GetProcessor();
+        $response = $this->execute($command);
+
+        return $processor->process($response, $default);
     }
 
     /**
@@ -19,7 +29,10 @@ class MemcachedClient implements CacheInterface
      */
     public function set($key, $value, $ttl = null)
     {
-        // TODO: Implement set() method.
+        $command = new SetCommand($key, $value, $ttl);
+        $response = $this->execute($command);
+
+        return $response->getToken(0) == $command->getSuccessResponseToken();
     }
 
     /**
@@ -27,7 +40,10 @@ class MemcachedClient implements CacheInterface
      */
     public function delete($key)
     {
-        // TODO: Implement delete() method.
+        $command = new DeleteCommand($key);
+        $processor = new DeleteProcessor();
+
+        return $processor->process($this->execute($command));
     }
 
     /**
@@ -35,7 +51,10 @@ class MemcachedClient implements CacheInterface
      */
     public function clear()
     {
-        // TODO: Implement clear() method.
+        $command = new ClearCommand();
+        $response = $this->execute($command);
+
+        return $response->getToken(0) === $command->getSuccessResponseToken();
     }
 
     /**
@@ -51,7 +70,9 @@ class MemcachedClient implements CacheInterface
      */
     public function setMultiple($values, $ttl = null)
     {
-        // TODO: Implement setMultiple() method.
+        foreach ($values as $key => $value) {
+            $this->set($key, $value, $ttl);
+        }
     }
 
     /**
@@ -59,7 +80,9 @@ class MemcachedClient implements CacheInterface
      */
     public function deleteMultiple($keys)
     {
-        // TODO: Implement deleteMultiple() method.
+        foreach ($keys as $key) {
+            $this->delete($key);
+        }
     }
 
     /**
@@ -67,6 +90,13 @@ class MemcachedClient implements CacheInterface
      */
     public function has($key)
     {
-        // TODO: Implement has() method.
+        $command = new GetCommand($key);
+        $processor = new GetProcessor();
+        $response = $this->execute($command);
+
+        $default = uniqid() . __CLASS__ . ':' . __METHOD__;
+        $result = $processor->process($response, $default);
+
+        return $result !== $default;
     }
 }

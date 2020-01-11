@@ -6,11 +6,13 @@
     "codeception/codeception": "^4.0",
     "codeception/module-asserts": "^1.1",
     "squizlabs/php_codesniffer": "*",
-    "cache/integration-tests": "dev-master"
+    "cache/integration-tests": "dev-master",
+    "ext-memcached": "*"
   },
   "require": {
     "psr/simple-cache": "^1.0",
-    "symfony/phpunit-bridge": "^5.0"
+    "symfony/phpunit-bridge": "^5.0",
+    "psr/log": "^1.1"
   },
   "autoload": {
     "psr-4": {
