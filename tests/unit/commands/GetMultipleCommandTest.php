@@ -2,7 +2,7 @@
 
 namespace commands;
 
-use vetrinus\memcached\BaseCommand;
+use vetrinus\memcached\commands\BaseCommand;
 use vetrinus\memcached\commands\GetMultipleCommand;
 
 class GetMultipleCommandTest extends \Codeception\Test\Unit

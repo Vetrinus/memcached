@@ -2,7 +2,7 @@
 
 namespace commands;
 
-use vetrinus\memcached\BaseCommand;
+use vetrinus\memcached\commands\BaseCommand;
 use vetrinus\memcached\commands\SetCommand;
 
 class SetCommandTest extends \Codeception\Test\Unit
@@ -15,9 +15,9 @@ class SetCommandTest extends \Codeception\Test\Unit
     // tests
     public function testPresentSuccess()
     {
-        $command = new SetCommand('key', 'valueToSave');
+        $command = new SetCommand('key', 'valueToSave', 0);
 
-        $mustBe = 'set key 0 ' . (time() - 1) . ' 19' . BaseCommand::NLCR . 's:11:"valueToSave";' . BaseCommand::NLCR;
+        $mustBe = 'set key 0 0 19' . BaseCommand::NLCR . 's:11:"valueToSave";' . BaseCommand::NLCR;
         $this->tester->assertEquals($mustBe, $command->represent());
     }
 
@@ -31,18 +31,8 @@ class SetCommandTest extends \Codeception\Test\Unit
 
     public function testSuccessToken()
     {
-        $command = new SetCommand('key', 'valueToSave');
+        $command = new SetCommand('key', 'valueToSave', 0);
 
         $this->tester->assertEquals('STORED', $command->getSuccessResponseToken());
-    }
-
-    public function testDateInterval()
-    {
-        $diff = 5;
-
-        $command = new SetCommand('key', 'valueToSave', new \DateInterval('PT' . $diff . 'S'));
-
-        $this->tester->assertEqualsWithDelta(time() + $diff, $command->getExpiration(), 1,
-            'expiration must be a unixtime');
     }
 }

@@ -2,8 +2,6 @@
 
 namespace vetrinus\memcached\commands;
 
-use vetrinus\memcached\BaseCommand;
-
 class GetMultipleCommand extends BaseCommand
 {
     /** @var string[] */
@@ -11,9 +9,7 @@ class GetMultipleCommand extends BaseCommand
 
     public function __construct($keys)
     {
-        foreach ($keys as $key) {
-            $this->keys[] = $this->processKey($key);
-        }
+        $this->keys = $keys;
     }
 
     public function represent(): string

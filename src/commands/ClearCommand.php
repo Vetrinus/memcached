@@ -2,8 +2,6 @@
 
 namespace vetrinus\memcached\commands;
 
-use vetrinus\memcached\BaseCommand;
-
 class ClearCommand extends BaseCommand
 {
     public function represent(): string

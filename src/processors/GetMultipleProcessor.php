@@ -3,7 +3,7 @@
 namespace vetrinus\memcached\processors;
 
 use Generator;
-use vetrinus\memcached\Response;
+use vetrinus\memcached\objects\Response;
 
 class GetMultipleProcessor
 {

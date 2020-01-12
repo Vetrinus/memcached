@@ -1,9 +1,10 @@
 <?php
 
-namespace vetrinus\memcached;
+namespace vetrinus\memcached\objects;
 
 use DomainException;
 use RuntimeException;
+use vetrinus\memcached\commands\BaseCommand;
 use vetrinus\memcached\exceptions\ClientException;
 use vetrinus\memcached\exceptions\NonExistentCommandException;
 use vetrinus\memcached\exceptions\ServerException;

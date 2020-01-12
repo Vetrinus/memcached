@@ -2,8 +2,6 @@
 
 namespace vetrinus\memcached\commands;
 
-use vetrinus\memcached\BaseCommand;
-
 class SetCommand extends BaseCommand
 {
     /** @var string */
@@ -17,15 +15,15 @@ class SetCommand extends BaseCommand
 
     /**
      * SetCommand constructor.
-     * @param $key
-     * @param mixed  $value
-     * @param int    $expiration
+     * @param       $key
+     * @param mixed $value
+     * @param int   $expiration
      */
-    public function __construct($key, $value, $expiration = 0)
+    public function __construct(string $key, $value, int $expiration)
     {
-        $this->key = $this->processKey($key);
+        $this->key = $key;
         $this->value = $value;
-        $this->expiration = $this->processExpiration($expiration);
+        $this->expiration = $expiration;
     }
 
     public function represent(): string

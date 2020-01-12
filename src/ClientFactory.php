@@ -3,6 +3,7 @@
 namespace vetrinus\memcached;
 
 use Psr\SimpleCache\CacheInterface;
+use vetrinus\memcached\processors\ArgumentsProcessor;
 use vetrinus\memcached\transport\TcpTransport;
 use vetrinus\memcached\transport\Transport;
 
@@ -17,6 +18,6 @@ class ClientFactory
 
     public function createByTransport(Transport $transport): CacheInterface
     {
-        return new MemcachedClient($transport);
+        return new MemcachedClient($transport, new ArgumentsProcessor());
     }
 }

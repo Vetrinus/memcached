@@ -21,7 +21,7 @@ class MemcachedClient extends BaseClient implements CacheInterface
      */
     public function get($key, $default = null)
     {
-        $command = new GetCommand($key);
+        $command = new GetCommand($this->sanitizer->sanitizeKey($key));
         $processor = new GetProcessor();
         $response = $this->execute($command);
 
@@ -33,7 +33,11 @@ class MemcachedClient extends BaseClient implements CacheInterface
      */
     public function set($key, $value, $ttl = null)
     {
-        $command = new SetCommand($key, $value, $ttl);
+        $command = new SetCommand(
+            $this->sanitizer->sanitizeKey($key),
+            $this->sanitizer->sanitizeValue($value),
+            $this->sanitizer->sanitizeTtl($ttl)
+        );
         $response = $this->execute($command);
 
         return $response->getToken(0) == $command->getSuccessResponseToken();
@@ -44,7 +48,7 @@ class MemcachedClient extends BaseClient implements CacheInterface
      */
     public function delete($key)
     {
-        $command = new DeleteCommand($key);
+        $command = new DeleteCommand($this->sanitizer->sanitizeKey($key));
         $processor = new DeleteProcessor();
 
         return $processor->process($this->execute($command));
@@ -74,10 +78,16 @@ class MemcachedClient extends BaseClient implements CacheInterface
             $keys = $this->ensureGenerator($keys);
         }
 
-        $command = new GetMultipleCommand($keys);
+        $sanitizedKeys = [];
+
+        foreach ($keys as $key) {
+            $sanitizedKeys[] = $this->sanitizer->sanitizeKey($key);
+        }
+
+        $command = new GetMultipleCommand($sanitizedKeys);
         $processor = new GetMultipleProcessor();
 
-        return $processor->process($this->execute($command), $keys, $default);
+        return $processor->process($this->execute($command), $sanitizedKeys, $default);
     }
 
     /**
@@ -125,7 +135,7 @@ class MemcachedClient extends BaseClient implements CacheInterface
      */
     public function has($key)
     {
-        $command = new GetCommand($key);
+        $command = new GetCommand($this->sanitizer->sanitizeKey($key));
         $processor = new GetProcessor();
         $response = $this->execute($command);
 

@@ -4,7 +4,9 @@ namespace vetrinus\memcached;
 
 use Generator;
 use Psr\Log\LoggerInterface;
-use RuntimeException;
+use vetrinus\memcached\commands\BaseCommand;
+use vetrinus\memcached\objects\Response;
+use vetrinus\memcached\processors\ArgumentsProcessor;
 use vetrinus\memcached\transport\Transport;
 
 abstract class BaseClient
@@ -15,13 +17,18 @@ abstract class BaseClient
     /** @var LoggerInterface|null */
     protected $logger;
 
+    /** @var ArgumentsProcessor */
+    protected $sanitizer;
+
     /**
-     * MemcachedClient constructor.
-     * @param Transport $transport
+     * BaseClient constructor.
+     * @param Transport          $transport
+     * @param ArgumentsProcessor $sanitizer
      */
-    public function __construct(Transport $transport)
+    public function __construct(Transport $transport, ArgumentsProcessor $sanitizer)
     {
         $this->transport = $transport;
+        $this->sanitizer = $sanitizer;
     }
 
     /**

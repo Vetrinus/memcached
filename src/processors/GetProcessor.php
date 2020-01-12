@@ -2,7 +2,7 @@
 
 namespace vetrinus\memcached\processors;
 
-use vetrinus\memcached\Response;
+use vetrinus\memcached\objects\Response;
 
 class GetProcessor
 {
