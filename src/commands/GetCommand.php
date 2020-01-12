@@ -11,7 +11,7 @@ class GetCommand extends BaseCommand
 
     /**
      * DeleteCommand constructor.
-     * @param string $key
+     * @param $key
      */
     public function __construct($key)
     {

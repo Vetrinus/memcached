@@ -17,7 +17,7 @@ class SetCommand extends BaseCommand
 
     /**
      * SetCommand constructor.
-     * @param string $key
+     * @param $key
      * @param mixed  $value
      * @param int    $expiration
      */

@@ -11,9 +11,9 @@ class DeleteCommand extends BaseCommand
 
     /**
      * DeleteCommand constructor.
-     * @param string $key
+     * @param $key
      */
-    public function __construct(string $key)
+    public function __construct($key)
     {
         $this->key = $this->processKey($key);
     }

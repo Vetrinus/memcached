@@ -4,7 +4,6 @@ namespace vetrinus\memcached;
 
 use DateInterval;
 use DateTime;
-use Generator;
 use vetrinus\memcached\exceptions\InvalidArgumentException;
 
 abstract class BaseCommand
@@ -42,20 +41,12 @@ abstract class BaseCommand
     {
         if (is_string($key)) {
             if (is_numeric($key)) {
-                return (int)$key;
+                return $key;
             }
 
             if (!empty($key)) {
-                if (preg_match('/\\\\|{|}|@|:/m', $key) === 1) {
-                    throw new InvalidArgumentException('forbidden character detected');
-                }
-
                 return $key;
             }
-        }
-
-        if (is_integer($key)) {
-            return $key;
         }
 
         throw new InvalidArgumentException(

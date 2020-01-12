@@ -3,13 +3,13 @@
 namespace vetrinus\memcached;
 
 use Generator;
-use Iterator;
 use Psr\SimpleCache\CacheInterface;
 use vetrinus\memcached\commands\ClearCommand;
 use vetrinus\memcached\commands\DeleteCommand;
 use vetrinus\memcached\commands\GetCommand;
 use vetrinus\memcached\commands\GetMultipleCommand;
 use vetrinus\memcached\commands\SetCommand;
+use vetrinus\memcached\exceptions\InvalidArgumentException;
 use vetrinus\memcached\processors\DeleteProcessor;
 use vetrinus\memcached\processors\GetMultipleProcessor;
 use vetrinus\memcached\processors\GetProcessor;
@@ -66,6 +66,10 @@ class MemcachedClient extends BaseClient implements CacheInterface
      */
     public function getMultiple($keys, $default = null)
     {
+        if (!is_iterable($keys)) {
+            throw new InvalidArgumentException('keys to get must be iterable');
+        }
+
         if ($keys instanceof Generator) {
             $keys = $this->ensureGenerator($keys);
         }
@@ -81,7 +85,15 @@ class MemcachedClient extends BaseClient implements CacheInterface
      */
     public function setMultiple($values, $ttl = null)
     {
+        if (!is_iterable($values)) {
+            throw new InvalidArgumentException('values to set must be iterable');
+        }
+
         foreach ($values as $key => $value) {
+            if (is_integer($key)) {
+                $key = (string)$key;
+            }
+
             if (!$this->set($key, $value, $ttl)) {
                 return false;
             }
@@ -95,6 +107,10 @@ class MemcachedClient extends BaseClient implements CacheInterface
      */
     public function deleteMultiple($keys)
     {
+        if (!is_iterable($keys)) {
+            throw new InvalidArgumentException('keys to delete must be iterable');
+        }
+
         foreach ($keys as $key) {
             if (!$this->delete($key)) {
                 return false;
