@@ -2,7 +2,6 @@
 
 namespace vetrinus\memcached\processors;
 
-
 use vetrinus\memcached\objects\Response;
 
 class DeleteProcessor
