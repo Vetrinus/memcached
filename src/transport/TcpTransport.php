@@ -23,7 +23,7 @@ class TcpTransport implements Transport
             throw new RuntimeException('Unable to open socket: ' . $domain . ':' . $port);
         }
 
-        stream_set_timeout($this->socket, 0, 1000);
+        stream_set_timeout($this->socket, 0, 5000);
     }
 
     public function transmit(string $content): int

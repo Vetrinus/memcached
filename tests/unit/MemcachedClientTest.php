@@ -45,12 +45,4 @@ class MemcachedClientTest extends SimpleCacheTest
 
         return $factory->createByDomainAndPort('localhost');
     }
-
-    public function testDataTypeInteger()
-    {
-        $this->cache->set('key', 5);
-        $result = $this->cache->get('key');
-        $this->assertEquals(5, $result, 'Wrong data type. If we store an int we must get an int back.');
-        $this->assertIsInt($result, 'Wrong data type. If we store an int we must get an int back.');
-    }
 }

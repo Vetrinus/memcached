@@ -132,7 +132,7 @@ class ArgumentsProcessorTest extends \Codeception\Test\Unit
      */
     public function testValidTtl($source, $result)
     {
-        $this->tester->assertEqualsWithDelta($this->getProcessor()->sanitizeTtl($source), $result, 10);
+        $this->tester->assertEqualsWithDelta($this->getProcessor()->sanitizeTtl($source), $result, 20);
     }
 
     private function getProcessor(): ArgumentsProcessor
