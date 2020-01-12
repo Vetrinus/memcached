@@ -5,9 +5,13 @@
   "require-dev": {
     "codeception/codeception": "^4.0",
     "codeception/module-asserts": "^1.1",
-    "squizlabs/php_codesniffer": "*"
+    "squizlabs/php_codesniffer": "*",
+    "cache/integration-tests": "dev-master"
   },
   "require": {
+    "psr/simple-cache": "^1.0",
+    "symfony/phpunit-bridge": "^5.0",
+    "psr/log": "^1.1"
   },
   "autoload": {
     "psr-4": {
@@ -20,7 +24,7 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/codecept run unit",
+    "test": "vendor/bin/codecept run --coverage --coverage-xml --xml",
     "cs-check": "./vendor/bin/phpcs",
     "cs-fix": "./vendor/bin/phpcbf",
     "check": [
